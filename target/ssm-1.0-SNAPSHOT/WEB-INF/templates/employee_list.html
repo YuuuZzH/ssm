@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>住户列表</title>
+    <link rel="stylesheet" th:href="@{/static/css/index_work.css}">
+</head>
+<body>
+<div style="left: auto;height: 30px;width: 90px">
+    <form th:action="@{'/employee/page/1/'+${keyword}}" method="get">
+        查询：<input type="text" placeholder="请输入关键字" name="keyword"><input class="btn-block" type="submit" value="搜索">
+    </form>
+</div>
+<div id="div1" style="margin-top: 50px">
+
+
+
+    <hr>
+
+    <div  style="size: 20px;float: right;font-family: CRPＣ＆Ｇ流麗行書体">
+        <a  th:href="@{/back/manage_page}">返回</a>
+    </div>
+    <div  style="size: 20px;float: left;font-family: CRPＣ＆Ｇ流麗行書体">
+        <a  th:href="@{/toAdd}">添加住户</a>
+    </div>
+
+
+    <table>
+        <tr>
+            <th colspan="5">住户列表</th>
+            <th id="username" th:text="${user?.username}"></th>
+        </tr>
+        <tr>
+            <th>序号</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>住址</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="emp,status : ${page.list}">
+            <td th:text="${status.count}"></td>
+            <td th:text="${emp.empName}"></td>
+            <td th:text="${emp.age}"></td>
+            <td th:text="${emp.sex}"></td>
+            <td th:text="${emp.email}"></td>
+            <td>
+                <a style="font-family: 教科書" th:href="@{'/employee/'+${emp.empId}}">修改</a>|<a style="font-family: 教科書" @click="del()" th:href="@{'/employee/'+${emp.empId}}">删除</a>
+            </td>
+        </tr>
+    </table>
+    <form id="delete_form" method="post">
+        <input type="hidden" name="_method" value="delete">
+    </form>
+</div>
+
+<div style="text-align: center">
+    <a th:if="${page.hasPreviousPage}" th:href="@{/employee/page/1}">首页</a>
+    <!--  th:解析时，路径中有参数要进行拼串  -->
+    <a th:if="${page.hasPreviousPage}" th:href="@{'/employee/page/'+${page.prePage}}">上一页</a>
+    <span th:each="num : ${page.navigatepageNums}">
+        <a th:if="${page.pageNum == num}" style="color: red" th:href="@{'/employee/page/'+${num}}" th:text="'['+${num}+']'"></a>
+        <a th:if="${page.pageNum != num}" th:href="@{'/employee/page/'+${num}}" th:text="${num}"></a>
+    </span>
+    <a th:if="${page.hasNextPage}" th:href="@{'/employee/page/'+${page.nextPage}}">下一页</a>
+    <a th:if="${page.hasNextPage}" th:href="@{'/employee/page/'+${page.pages}}">尾页</a>
+</div>
+<script type="text/javascript" th:src="@{/static/js/vue.js}"></script>
+<script type="text/javascript">
+    var vue = new Vue({
+        el:"#div1",
+        methods:{
+            del(){
+                if (confirm('是否确认删除？')){
+                    var delete_form = document.getElementById("delete_form");
+                    delete_form.action = event.target.href;
+                    delete_form.submit();
+                    event.preventDefault();
+                }
+            }
+        }
+    })
+
+</script>
+</body>
+</html>

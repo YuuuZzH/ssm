@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>评论列表</title>
+</head>
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgb(117, 113, 113);
+        color: white;
+    }
+
+    #main {
+        flex: 1;
+        width: 60%;
+    }
+
+    #typing {
+        flex: 1;
+        width: 60%;
+        height: 20vh;
+        border: red;
+        font-size: xx-large;
+    }
+
+    #commend {
+        flex: 1;
+        width: 80%;
+    }
+
+    #btn {
+        background-color: red;
+    }
+
+    p {
+        background-color: black;
+    }
+</style>
+
+</head>
+
+<body>
+
+<div id="main">
+    <h1>评论区</h1>
+    <a style="display: inline" th:href="@{/comment/per}">进入个人空间</a>
+    <a style="right: 20px" th:href="@{/back/manage_page}">返回</a>
+
+    <hr>
+    <form th:action="@{/comment/add}" method="post">
+        <textarea id="typing" placeholder="请畅所欲言" name="comment"></textarea>
+        <input type="submit" value="发表">
+    </form>
+
+    <div id="commend">
+        <div class="comments">
+            <div class="comment-wrap">
+                <div class="comment-block">
+                    <table>
+                        <tr>
+                            <th>发帖人</th>
+                            <th>发帖日期</th>
+                            <th>内容</th>
+                        </tr>
+                        <tr th:each="c : ${list}">
+                            <td th:text="${c.username}"></td>
+                            <td th:text="${c.date}"></td>
+                            <td th:text="${c.comment}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

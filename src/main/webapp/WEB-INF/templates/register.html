@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" th:href="@{/static/css/index_work1.css}">
+
+    <script src="/ssm/static/js/jquery-1.8.2.min.js"></script>
+    <script src="/ssm/static/js/vue.js"></script>
+    <script src="/ssm/static/js/axios.min.js"></script>
+    <script type="text/javascript">
+        function test1(){
+            let userinfo = document.getElementById("userinfo");
+            let username = document.getElementById("username").value;
+            $.ajax({
+                type:"get",
+                url:"/ssm/check",
+                data: {username},
+                success(data){
+                    console.log(data);
+                    if (data==='ok'){
+                        userinfo.innerHTML="<font color='green'>用户名可用</font>"
+                    }else {
+                        userinfo.innerHTML="<font color='red'>用户名不可用</font>"
+                    }
+                }
+            })
+        }
+        function test2(){
+            let pwd = document.getElementById("password").value;
+            let spwd = document.getElementById("pwdinfo");
+            if (/^\w{6,}$/.test(pwd)){
+                spwd.innerHTML="<font color='green'>密码格式正确</font>"
+            }else {
+                spwd.innerHTML="<font color='red'>密码最少6位，由数字、字符组成</font>"
+            }
+        }
+        function test3(){
+            let pwd = document.getElementById("password").value;
+            let repwd = document.getElementById("repassword").value;
+            let repwdinfo = document.getElementById("repwdinfo");
+            if (pwd===repwd){
+                repwdinfo.innerHTML="<font color='green'>ok</font>"
+            }else {
+                repwdinfo.innerHTML="<font color='red'>两次密码不一致</font>"
+            }
+        }
+    </script>
+    <style>
+
+    </style>
+</head>
+
+<body>
+<div id="div0">
+    <div id="div1" style="text-align: center;color: white;font-size: 25px">
+        <form th:action="@{/user}" method="post">
+            <p>
+                用户名:<input type="text" id="username" name="username" onblur="test1()">
+                <span id="userinfo"></span>
+            </p>
+            <p>
+                密码:<input type="password" id="password" name="password" onblur="test2()">
+                <span id="pwdinfo"></span>
+            </p>
+            <p>
+                确认密码:<input type="password" id="repassword" onblur="test3()">
+                <span id="repwdinfo"></span>
+            </p>
+            <input type="submit" value="注册"> | <a type="submit" href="back_to_index">返回</a>
+        </form>
+    </div>
+</div>
+
+<style>
+
+    #div1{
+        width: 800px;height: 600px;
+        margin: 200px auto;
+        line-height: 40px;
+        text-align: center;
+    }
+</style>
+</body>
+</html>

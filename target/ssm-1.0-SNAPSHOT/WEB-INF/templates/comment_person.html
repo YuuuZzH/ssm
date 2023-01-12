@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人空间</title>
+    <link rel="stylesheet" th:href="@{/static/css/index_work4.css}">
+</head>
+<body>
+<p style="text-align: center;font-size: 50px;color: white;font-family: 叶根友特楷简体">这是[[${user.username}]]的空间</p>
+<a th:href="@{/back/com_list}">返回</a>
+<hr>
+<div id="commend">
+    <div class="comments">
+        <div class="comment-wrap" >
+            <div class="comment-block">
+                <table>
+                    <tr>
+                        <th>发帖人</th>
+                        <th>发帖日期</th>
+                        <th>内容</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr  th:each="c : ${person}">
+                        <td th:text="${c.username}"></td>
+                        <td th:text="${c.date}"></td>
+                        <td th:text="${c.comment}"></td>
+                        <td>
+                            <a th:href="@{'/comment/del/'+${c.id}}">删除</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
